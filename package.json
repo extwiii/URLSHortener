@@ -1,0 +1,27 @@
+{
+  "name": "urlshortener",
+  "version": "1.0.0",
+  "description": "URL SHortoner API",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/extwiii/URLSHortener.git"
+  },
+  "keywords": [
+    "URL",
+    "Shortener",
+    "API",
+    "NODE",
+    "nodejs",
+    "extwiii"
+  ],
+  "author": "Bilal Cagiran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/extwiii/URLSHortener/issues"
+  },
+  "homepage": "https://github.com/extwiii/URLSHortener#readme"
+}
