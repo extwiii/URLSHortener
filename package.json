@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/extwiii/URLSHortener/issues"
   },
-  "homepage": "https://github.com/extwiii/URLSHortener#readme"
+  "homepage": "https://github.com/extwiii/URLSHortener#readme",
+  "dependencies": {
+    "express": "^4.14.0"
+  }
 }
