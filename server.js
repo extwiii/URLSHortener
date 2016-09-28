@@ -1,25 +1,78 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var app = express();
+var validUrl = require('valid-url');
+var mongo = require('mongodb').MongoClient
 
+var localUrl = process.env.MONGOLAB_URLSHORT_URL || 'mongodb://localhost:27017/urlshort' ;
 
-app.get('/new/:url',function(req,res){
-
-if(validateURL(req.params.url)){
-	res.send("correct");
+var urlObject = {
+	originalUrl : "",
+	shortUrl : ""
 }
 
 
+app.get('/:url',function(req,res){
+
+	var checkUrl = "http://localhost:3000/" + req.params.url;
+	mongo.connect(localUrl, function(err, db) {
+      if (err) throw err
+      var urls = db.collection('urls')
+      urls.findOne({
+        	shortUrl:checkUrl
+    	},function(err, docs) {
+        	if (err) throw err
+	        if (docs) {
+
+	        res.redirect(docs.originalUrl);
+	      	} else {
+	        // we don't
+	        res.json({error: "URL invalid"});
+			}
+
+        	db.close()
+      	})
+
+    })
+
+    
+});
+
+app.get('/new/:url*',function(req,res){
+	
+	var url = req.url.slice(5); //remove the '/new/' portion from url
+
+	if (!validUrl.isWebUri(url)) {
+        return res.json({error: "URL invalid"});
+	}	
+
+	urlObject = {
+		originalUrl : url,
+		shortUrl : "http://localhost:3000/"+ getRandom(1,1000).toString()
+	}
+
+
+	mongo.connect(localUrl, function(err, db) {
+    	if (err) throw err
+    	var urls = db.collection('urls')
+      	urls.insert(urlObject, function(err, data) {
+        if (err) throw err
+        console.log(JSON.stringify(urlObject))
+        db.close()
+      })
+    })
+	res.json(urlObject);		
 
 });
 
 
-function validateURL(url) {
-    // Checks to see if it is an actual url
-    // Regex from https://gist.github.com/dperini/729294
-    var regex = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
-    return regex.test(url);
-}
+function getRandom(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+} 
+  
+  
+
+
 
 var port = process.env.PORT || 3000; 
 

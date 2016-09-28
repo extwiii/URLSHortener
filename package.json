@@ -26,6 +26,8 @@
   "homepage": "https://github.com/extwiii/URLSHortener#readme",
   "dependencies": {
     "express": "^4.14.0",
-    "mongoose": "^4.6.0"
+    "mongodb": "^2.2.10",
+    "mongoose": "^4.6.0",
+    "valid-url": "^1.0.9"
   }
 }
