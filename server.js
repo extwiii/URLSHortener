@@ -2,6 +2,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var app = express();
 var validUrl = require('valid-url');
+var path = require('path');
 var mongo = require('mongodb').MongoClient
 
 var localUrl = process.env.MONGOLAB_URLSHORT_URL || 'mongodb://localhost:27017/urlshort' ;
@@ -11,6 +12,10 @@ var urlObject = {
 	originalUrl : "",
 	shortUrl : ""
 }
+
+app.get('/', function (req, res) {
+		res.sendFile(path.join(__dirname + '/views/index.html'));
+});
 
 
 app.get('/:url',function(req,res){
