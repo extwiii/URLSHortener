@@ -5,6 +5,7 @@ var validUrl = require('valid-url');
 var mongo = require('mongodb').MongoClient
 
 var localUrl = process.env.MONGOLAB_URLSHORT_URL || 'mongodb://localhost:27017/urlshort' ;
+var LIVE_URL = "https://extwiii-urlshortener.herokuapp.com/"
 
 var urlObject = {
 	originalUrl : "",
@@ -14,7 +15,7 @@ var urlObject = {
 
 app.get('/:url',function(req,res){
 
-	var checkUrl = "http://localhost:3000/" + req.params.url;
+	var checkUrl = LIVE_URL + req.params.url;
 	mongo.connect(localUrl, function(err, db) {
       if (err) throw err
       var urls = db.collection('urls')
@@ -48,7 +49,7 @@ app.get('/new/:url*',function(req,res){
 
 	urlObject = {
 		originalUrl : url,
-		shortUrl : "http://localhost:3000/"+ getRandom(1,1000).toString()
+		shortUrl : LIVE_URL+ getRandom(1,1000).toString()
 	}
 
 
