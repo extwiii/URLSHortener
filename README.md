@@ -6,8 +6,8 @@
 ## Example usage:
 
 ```url
-https://extwiii-urlshortener.herokuapp.com/https://www.google.com
-https://extwiii-urlshortener.herokuapp.com/https://www.twitter.com
+https://extwiii-urlshortener.herokuapp.com/new/https://www.google.com
+https://extwiii-urlshortener.herokuapp.com/new/https://www.twitter.com
 ```
 
 ## Example output:
